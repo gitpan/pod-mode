@@ -26,7 +26,7 @@
 
 ;;; Tested on i386-linux with XEmacs 21.4.
 ;;; Tested on i386-linux with GNU Emacs 21.2.1.
-;;; Tested on i386-windows-xp with XEmacs 21.4.
+;;; Tested on i386-windows-2k with XEmacs 21.4.
 
 ;;; Commentary:
 
@@ -41,6 +41,7 @@
 ;;;   font-lock-comment-face
 ;;;   font-lock-reference-face
 ;;;   font-lock-doc-string-face
+;;;   font-lock-function-name-face
 ;;;
 
 ;;; Usage:
@@ -66,26 +67,27 @@
 
 ;; default variables
 (defvar pod-mode-hook nil)
-(defvar pod-mode-map nil
-  "Keymap for POD major mode")
 
-;; default keymap
+;; keymap
+(defvar pod-mode-map nil "Keymap for POD major mode.")
 (if pod-mode-map nil
-  (setq pod-mode-map (make-keymap)))
+  (let ((map (make-sparse-keymap)))
+    ;; insert (define-key map ...) stuff here
+    (setq pod-mode-map map)))
 
 ;; syntax highlighting: standard keywords
 (defconst pod-font-lock-keywords-1
   '(
-    ("^=\\(head1\\|head2\\|item\\|over\\|back\\|cut\\|pod\\|for\\|begin\\|end\\)" . font-lock-keyword-face)
-    ("^[ \t]+\\(.*\\)" 1 font-lock-type-face)
+    ("^=\\(head1\\|head2\\|item\\|over\\|back\\|cut\\|pod\\|for\\|begin\\|end\\)" 0 font-lock-keyword-face)
+    ("^[ \t]+\\(.*\\)$" 1 font-lock-type-face)
     )
-  "Minimal highlighting expressions for POD mode")
+  "Minimal highlighting expressions for POD mode.")
 
 ;; syntax highlighting: additional keywords
 (defconst pod-font-lock-keywords-2
   (append pod-font-lock-keywords-1
 	  '(
-	    ("[^=]=\\(head1\\|head2\\|item\\|over\\|back\\|cut\\|pod\\|for\\|begin\\|end\\)\\(.*\\)" 2 font-lock-comment-face)
+	    ("^=\\(head1\\|head2\\|item\\|over\\|back\\|cut\\|pod\\|for\\|begin\\|end\\)\\(.*\\)" 2 font-lock-comment-face)
 	    ))
   "Additional Keywords to highlight in POD mode.")
 
@@ -93,11 +95,13 @@
 (defconst pod-font-lock-keywords-3
   (append pod-font-lock-keywords-2
 	  '(
-	    ("[IBSCFE]<\\([^>]*\\)>" 1 font-lock-reference-face)
+	    ("[IBSCF]<\\([^>]*\\)>" 1 font-lock-reference-face)
 	    ("L<\\([^|>]*|\\)?\\([^>]+\\)>" 2 font-lock-reference-face)
 	    ("L<\\([^|>]*\\)|\\([^>]*\\)>" 1 font-lock-doc-string-face)
+	    ("E<\\([^>]*\\)>" 1 font-lock-function-name-face)
+	    ("\"\\([^\"]+\\)\"" 0 font-lock-string-face)
 	    ))
-  "Balls-out highlighting in POD mode")
+  "Balls-out highlighting in POD mode.")
 
 ;; default level of highlight to maximum
 (defvar pod-font-lock-keywords pod-font-lock-keywords-3
@@ -127,14 +131,15 @@
   (interactive)
   (kill-all-local-variables)
   (pod-create-syntax-table)
+  (use-local-map pod-mode-map)
   (make-local-variable 'font-lock-defaults)
-  (setq font-lock-defaults
-		'(pod-font-lock-keywords))
-;;  (make-local-variable 'indent-line-function)
-;;  (setq indent-line-function 'pod-indent-line)
+  (setq font-lock-defaults '(pod-font-lock-keywords 't))
+  ;; (make-local-variable 'indent-line-function)
+  ;; (setq indent-line-function 'pod-indent-line)
   (setq major-mode 'pod-mode)
   (setq mode-name "POD")
   (run-hooks 'pod-mode-hook))
+
 
 (provide 'pod-mode)
 
