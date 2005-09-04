@@ -3,12 +3,13 @@
 ;;; It mainly defines a grammar for syntax highlighting.
 ;;; POD is the Plain Old Documentation format of Perl.
 
-;;; Copyright 2003 Steffen Schwigon
+;;; Copyright 2003-2005 Steffen Schwigon
 
 ;;; Author: Steffen Schwigon <schwigon@webit.de>
-;;; Version: $Id: pod-mode.el,v 1.2 2005/04/01 09:26:01 ss5 Exp $
+;;; Version: 0.4
+;;; CVS Version: $Id: pod-mode.el,v 1.5 2005/09/04 12:36:44 ss5 Exp $
 ;;; Keywords: perl pod
-;;; X-URL: not distributed yet
+;;; X-URL: http://search.cpan.org/~schwigon/pod-mode/
 
 ;;; This program is free software; you can redistribute it and/or modify
 ;;; it under the terms of the GNU General Public License as published by
@@ -78,7 +79,7 @@
 ;; syntax highlighting: standard keywords
 (defconst pod-font-lock-keywords-1
   '(
-    ("^=\\(head1\\|head2\\|head3\\|head4\\|item\\|over\\|back\\|cut\\|pod\\|for\\|begin\\|end\\|encoding\\)" 0 font-lock-keyword-face)
+    ("^=\\(head[1234]\\|item\\|over\\|back\\|cut\\|pod\\|for\\|begin\\|end\\|encoding\\)" 0 font-lock-keyword-face)
     ("^[ \t]+\\(.*\\)$" 1 font-lock-type-face)
     )
   "Minimal highlighting expressions for POD mode.")
@@ -87,7 +88,7 @@
 (defconst pod-font-lock-keywords-2
   (append pod-font-lock-keywords-1
 	  '(
-	    ("^=\\(head1\\|head2\\|head3\\|head4\\|item\\|over\\|back\\|cut\\|pod\\|for\\|begin\\|end\\)\\(.*\\)" 2 font-lock-comment-face)
+	    ("^=\\(head[1234]\\|item\\|over\\|back\\|cut\\|pod\\|for\\|begin\\|end\\)\\(.*\\)" 2 font-lock-comment-face)
 	    ))
   "Additional Keywords to highlight in POD mode.")
 
@@ -96,9 +97,10 @@
   (append pod-font-lock-keywords-2
 	  '(
 	    ("[IBCFXZS]<\\([^>]*\\)>" 1 font-lock-reference-face)
-	    ("L<\\([^|>]*|\\)?\\([^|>]*|\\)?\\([^>]+\\)>" 3 font-lock-function-name-face)
-	    ("L<\\([^|>]*|\\)?\\([^|>]*|\\)?\\([^>]+\\)>" 2 font-lock-reference-face)
-	    ("L<\\([^|>]*|\\)?\\([^|>]*\\)|\\([^>]*\\)>" 1 font-lock-doc-string-face)
+	    ("L<\\(\\([^|>]*\\)|\\)\\([^>]+\\)>"
+	     (2 font-lock-reference-face)
+	     (3 font-lock-function-name-face))
+	    ("L<\\([^|>]+\\)>" 1 font-lock-function-name-face)
 	    ("E<\\([^>]*\\)>" 1 font-lock-function-name-face)
 	    ("\"\\([^\"]+\\)\"" 0 font-lock-string-face)
 	    ))
@@ -139,8 +141,8 @@
   ;; (setq indent-line-function 'pod-indent-line)
   (setq major-mode 'pod-mode)
   (setq mode-name "POD")
+  (setq imenu-generic-expression '((nil "^=head[1234] +\\(.*\\)" 1)))
   (run-hooks 'pod-mode-hook))
-
 
 (provide 'pod-mode)
 
