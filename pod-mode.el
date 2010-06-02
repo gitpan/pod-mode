@@ -2,11 +2,11 @@
 
 ;;; POD is the Plain Old Documentation format of Perl.
 
-;;; Copyright 2003-2009 Steffen Schwigon
+;;; Copyright 2003-2010 Steffen Schwigon
 
 ;;; Author: Steffen Schwigon <ss5@renormalist.net>
-;;; Version: 1.00
-;;; Keywords: perl pod
+;;;
+;;; Keywords: emacs mode perl pod
 ;;; X-URL: http://search.cpan.org/~schwigon/pod-mode/
 
 ;;; This program is free software; you can redistribute it and/or modify
@@ -36,7 +36,7 @@
 ;;;
 ;;; which disapeared from the net and is now hosted at
 ;;;
-;;;   http://renormalist.net/cgi-bin/twiki/view/Renormalist/EmacsLanguageModeCreationTutorial
+;;;   http://renormalist.net/Renormalist/EmacsLanguageModeCreationTutorial
 ;;;
 ;;; Regexes are defined for the following font-lock-faces:
 ;;;
@@ -71,6 +71,10 @@
 
 ;; default variables
 (defvar pod-mode-hook nil)
+
+;;; Version: 1.01
+(defvar pod-version "1.01"
+  "Version of POD mode")
 
 ;; keymap
 (defvar pod-mode-map nil "Keymap for POD major mode.")
