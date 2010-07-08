@@ -1,0 +1,94 @@
+ # directly start with
+ # some verbatim stuff
+
+=head1 NAME
+
+LibCPV::Categorizer - Class for Hierarchical CPV-Number
+Categorizing via L<AI::Categorizer|AI::Categorizer>.
+
+=head1 SYNOPSIS
+
+  my $doc_set = new LibCPV::Categorizer::DocumentSet
+  ({
+    dirname         => '/path/to/docset/dir'
+  });
+  $doc_set->add_docs_from_dir;
+
+  my $categorizer = new LibCPV::Categorizer
+  ({
+    document_set         => $doc_set,
+    learner_rootdir      => '/path/to/learner/output/dir'
+  });
+  $categorizer->train;
+
+=head1 INTRODUCTION
+
+We use L<AI::Categorizer|AI::Categorizer>. Because AI::Categorizer
+does not do hierarchical categorization we added our own hierarchy
+schema based on the semantics of "cpv numbers".
+
+For introduction to cpv numbers see
+I<http://simap.eu.int/EN/pub/src/welcome.htm>.
+
+In LibCPV::Categorizer we try to use a consistent wording.
+Here are the most important phrases:
+
+B<learner> - An AI::Categorizer instance used to learn (or train).
+
+B<category> - a cpv number, simply an 8-digit-number. CPV numbers are
+hierarchically built. The first 2 digits form a common level of
+accuracy, then each following digit forms another accuracy level.
+We derive the word "group" from that accuracy level definition.
+
+=func Affe
+
+Exercise some Affe dance.
+
+=method Zomtec
+
+C<<< Quite I<< funky B<Zomtec> >> >>>
+
+=method C<<< moo I<< foo->B<bar> >> >>>
+
+Bla.
+
+=func C<<< moo I<< foo B<bar> >> >>>
+
+Fasel.
+
+=attr C<<< moo I<< foo B<bar> >> >>>
+
+Bummer!
+
+=head1 C<<< moo I<< foo B<bar> >> >>>
+
+Kram.
+
+=head2 Some code examples
+
+
+  # a verbatim block
+  sub cut { 42 }
+  my $foo = cut();
+  sub affe {
+          do_something_strong($foo, $zomtec, @tiger);
+          print STDERR $foo, "\n";
+  }
+
+  # another verbatim block after a single empty line
+  # although that is not the only reason for confusion
+  affe();
+  sub kram {
+          foo($kram);
+  }
+
+  If all possible cpv numbers with 8 digits would be used, the tree
+  would have one root level learner categorizing into 99 categories,
+  99 learners at the next level each categorizing into 9 categories,
+  therefore 9 learnes in each of the 99 categories, and in each
+  following level 9 more learners for each category.
+
+=cut
+
+  # end with some
+  # verbatim lines
