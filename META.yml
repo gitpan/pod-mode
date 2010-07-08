@@ -15,7 +15,7 @@ resources:
   bugtracker: http://rt.cpan.org/Public/Dist/Display.html?Name=pod-mode
   homepage: http://search.cpan.org/dist/pod-mode
   repository: git://github.com/renormalist/emacs-pod-mode.git
-version: 1.02
+version: 1.03
 x_Dist_Zilla:
   plugins:
     -

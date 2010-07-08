@@ -3,7 +3,7 @@ BEGIN {
   $Emacs::PodMode::AUTHORITY = 'cpan:SCHWIGON';
 }
 BEGIN {
-  $Emacs::PodMode::VERSION = '1.02';
+  $Emacs::PodMode::VERSION = '1.03';
 } 
 # ABSTRACT: Emacs major mode for editing .pod-files
 
@@ -19,7 +19,7 @@ Emacs::PodMode - Emacs major mode for editing .pod-files
 
 =head1 VERSION
 
-version 1.02
+version 1.03
 
 =head1 DESRIPTION
 
